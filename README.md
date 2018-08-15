@@ -4,40 +4,36 @@
 
 
 # spark
+这是一个基于 debian:stretch 的Spark容器，基于standalone模式进行应用部署,需要使用docker-compose.yml来定义集群配置，或者以此作为一个更加复杂集群的基础
 
-A `debian:stretch` based [Spark](http://spark.apache.org) container. Use it in a standalone cluster with the accompanying `docker-compose.yml`, or as a base for more complex recipes.
 
-## docker example
+## 例子
 
-To run `SparkPi`, run the image with Docker:
+先跑一下SpariPi的例子
 
-    docker run --rm -it -p 4040:4040 gettyimages/spark bin/run-example SparkPi 10
+	docker run --rm -it -p 4040:4040 gettyimages/spark bin/run-example SparkPi 10
 
-To start `spark-shell` with your AWS credentials:
+在AWS上执行spark-shell:
 
-    docker run --rm -it -e "AWS_ACCESS_KEY_ID=YOURKEY" -e "AWS_SECRET_ACCESS_KEY=YOURSECRET" -p 4040:4040 gettyimages/spark bin/spark-shell
+	docker run  --rm -it -e "AWS_ACCESS_KEY_ID=TYOURKEY" -e "AWS_SECRET_ACCESS_KEY=TYOURSECRET" -p 4040:4040 gettyimages/spark bin/spark-shell
 
-To do a thing with Pyspark
+
+使用PySpark
 
     echo -e "import pyspark\n\nprint(pyspark.SparkContext().parallelize(range(0, 10)).count())" > count.py
     docker run --rm -it -p 4040:4040 -v $(pwd)/count.py:/count.py gettyimages/spark bin/spark-submit /count.py
 
-## docker-compose example
+## docker-compose例子
 
-To create a simplistic standalone cluster with [docker-compose](http://docs.docker.com/compose):
+使用docker-compose创建一个简单的standalone模式集群：
 
-    docker-compose up
+	docker-compose up
 
-The SparkUI will be running at `http://${YOUR_DOCKER_HOST}:8080` with one worker listed. To run `pyspark`, exec into a container:
+可以通过Docker_host:8080来查看SparkUI
+运行pyspark，需要进入容器：
 
-    docker exec -it dockerspark_master_1 /bin/bash
-    bin/pyspark
-
-To run `SparkPi`, exec into a container:
-
-    docker exec -it dockerspark_master_1 /bin/bash
-    bin/run-example SparkPi 10
-
-## license
-
-MIT
+	docker exec -it dockerspark_master_1 /bin/bash
+	bin/pyspark
+	#执行SparkPi
+	dockerexec -it dockerspark_master_1 /bin/bash
+	bin/run-example SparkPi 10
