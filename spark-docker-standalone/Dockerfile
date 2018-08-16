@@ -1,5 +1,5 @@
-FROM debian:stretch
-MAINTAINER Getty Images "https://github.com/gettyimages"
+FROM centos:stretch
+
 
 RUN yum update \
 	&& yum install -y locales \
@@ -13,7 +13,7 @@ RUN yum update \
 
 ENV LANG zh_CN.UTF-8
 ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LC_ALL zh_CN.UTF-8
 
 RUN yum update  \
 	&& yum install -y curl unzip \
